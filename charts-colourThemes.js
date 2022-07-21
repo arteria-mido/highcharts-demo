@@ -22,6 +22,7 @@ function fileLoaded(evt) {
     
 
     dt = createCommunityDatatableNormalized();
+    console.log(dt);
     
     data = google.visualization.arrayToDataTable(dt);
 
@@ -57,7 +58,8 @@ function fileLoaded(evt) {
         xAxis: { 
             crosshair: true,
             title: { text: 'Zeit [Stunde]'},
-            categories: dt.map(d => d[0]),
+            // categories: dt.map(d => d[0]),
+			type: 'datetime',
         },
         yAxis: { title: { text: 'Leistung [kWe.]' }	},
         tooltip: { shared: true },
@@ -73,11 +75,11 @@ function fileLoaded(evt) {
     let original = {
         title: { text:  'theme: Original (edited)'},
         series: [         
-            { name: "Netzbezug", color: '#cfc9d5', data: dt.map(d => Number(parseFloat(d[3]).toFixed(2))) },
-            { name: "Netzeinspeisung", color: '#855a87', data: dt.map(d => Number(parseFloat(d[4]).toFixed(2))) },
-            { name: "Eigenversorgung", color: '#b8dc45', data: dt.map(d => Number(parseFloat(d[1]).toFixed(2))) },
-            { name: "PV Erzeugung", type: 'spline', color: '#fcf299', data: dt.map(d => Number(parseFloat(d[5]).toFixed(2))) },
-            { name: "Strombedarf", type: 'spline', color: '#00deff', data: dt.map(d => Number(parseFloat(d[6]).toFixed(2))) },
+            { name: "Netzbezug", color: '#cfc9d5', data: dt.map(d => [d[0], roundFloat(d[3], 2)]) },
+            { name: "Netzeinspeisung", color: '#855a87', data: dt.map(d => [d[0], roundFloat(d[4], 2)]) },
+            { name: "Eigenversorgung", color: '#b8dc45', data: dt.map(d => [d[0], roundFloat(d[1], 2)]) },
+            { name: "PV Erzeugung", type: 'spline', color: '#fcf299', data: dt.map(d => [d[0], roundFloat(d[5], 2)]) },
+            { name: "Strombedarf", type: 'spline', color: '#00deff', data: dt.map(d => [d[0], roundFloat(d[6], 2)]) },
         ]
     }
 
@@ -98,7 +100,7 @@ function fileLoaded(evt) {
                     [1, 'rgba(255,255,255,.5)']
                   ]
                 },
-                data: dt.map(d => Number(parseFloat(d[3]).toFixed(2))) },
+                data: dt.map(d => [d[0], roundFloat(d[3], 2)]) },
             {   name: "Netzeinspeisung", 
                 color: '#f3a284', 
                 lineColor: 'rgba(229, 129, 92, .25)',
@@ -108,7 +110,7 @@ function fileLoaded(evt) {
                         [0, 'rgba(252, 196, 145, 1)'],
                         [1, 'rgba(255,255,255,1)']
                 ]},
-                data: dt.map(d => Number(parseFloat(d[4]).toFixed(2))) },
+                data: dt.map(d => [d[0], roundFloat(d[4], 2)]) },
             {   name: "Eigenversorgung", 
                 color: '#a3edba', 
                 marker: { fillColor: '#a3edba'},
@@ -119,9 +121,9 @@ function fileLoaded(evt) {
                         [0, 'rgba(67,235,217,.9)'],
                         [1, 'rgba(163, 237, 186, .6)'],
                 ]},
-                data: dt.map(d => Number(parseFloat(d[1]).toFixed(2))) },
-            { name: "PV Erzeugung", type: 'spline', color: '#fde79b', data: dt.map(d => Number(parseFloat(d[5]).toFixed(2))) },
-            { name: "Strombedarf", type: 'spline', color: '#7dd6ff',  lineWidth: 3,data: dt.map(d => Number(parseFloat(d[6]).toFixed(2))) },
+                data: dt.map(d => [d[0], roundFloat(d[1], 2)]) },
+            { name: "PV Erzeugung", type: 'spline', color: '#fde79b', data: dt.map(d => [d[0], roundFloat(d[5], 2)]) },
+            { name: "Strombedarf", type: 'spline', color: '#7dd6ff',  lineWidth: 3,data: dt.map(d => [d[0], roundFloat(d[6], 2)]) },
         ]
     };
 
@@ -131,11 +133,11 @@ function fileLoaded(evt) {
     let dark = {
         title: { text:  'theme: Neutral Dark'},
         series: [         
-            { name: "Netzbezug", color: '#aca6d4', data: dt.map(d => Number(parseFloat(d[3]).toFixed(2))) },
-            { name: "Netzeinspeisung", color: '#60609c', data: dt.map(d => Number(parseFloat(d[4]).toFixed(2))) },
-            { name: "Eigenversorgung", color: '#a3edba', data: dt.map(d => Number(parseFloat(d[1]).toFixed(2))) },
-            { name: "PV Erzeugung", type: 'spline', color: '#fcf299', data: dt.map(d => Number(parseFloat(d[5]).toFixed(2))) },
-            { name: "Strombedarf", type: 'spline', color: '#a3acff', data: dt.map(d => Number(parseFloat(d[6]).toFixed(2))) },
+            { name: "Netzbezug", color: '#aca6d4', data: dt.map(d => [d[0], roundFloat(d[3], 2)]) },
+            { name: "Netzeinspeisung", color: '#60609c', data: dt.map(d => [d[0], roundFloat(d[4], 2)]) },
+            { name: "Eigenversorgung", color: '#a3edba', data: dt.map(d => [d[0], roundFloat(d[1], 2)]) },
+            { name: "PV Erzeugung", type: 'spline', color: '#fcf299', data: dt.map(d => [d[0], roundFloat(d[5], 2)]) },
+            { name: "Strombedarf", type: 'spline', color: '#a3acff', data: dt.map(d => [d[0], roundFloat(d[6], 2)]) },
         ]
     };
 
@@ -145,11 +147,11 @@ function fileLoaded(evt) {
     let haystack = {
         title: { text: 'theme: Haystack'},
         series: [         
-            { name: "Netzbezug", color: '#edecc0', data: dt.map(d => Number(parseFloat(d[3]).toFixed(2))) },
-            { name: "Netzeinspeisung", color: '#e5e39b', data: dt.map(d => Number(parseFloat(d[4]).toFixed(2))) },
-            { name: "Eigenversorgung", color: '#a1d49b', data: dt.map(d => Number(parseFloat(d[1]).toFixed(2))) },
-            { name: "PV Erzeugung", type: 'spline', color: '#ffe792', data: dt.map(d => Number(parseFloat(d[5]).toFixed(2))) },
-            { name: "Strombedarf", type: 'spline', color: '#99aecb', data: dt.map(d => Number(parseFloat(d[6]).toFixed(2))) },
+            { name: "Netzbezug", color: '#edecc0', data: dt.map(d => [d[0], roundFloat(d[3], 2)]) },
+            { name: "Netzeinspeisung", color: '#e5e39b', data: dt.map(d => [d[0], roundFloat(d[4], 2)]) },
+            { name: "Eigenversorgung", color: '#a1d49b', data: dt.map(d => [d[0], roundFloat(d[1], 2)]) },
+            { name: "PV Erzeugung", type: 'spline', color: '#ffe792', data: dt.map(d => [d[0], roundFloat(d[5], 2)]) },
+            { name: "Strombedarf", type: 'spline', color: '#99aecb', data: dt.map(d => [d[0], roundFloat(d[6], 2)]) },
         ]
     };
 
@@ -159,11 +161,11 @@ function fileLoaded(evt) {
     let auen = {
         title: { text: 'theme: Meadows'},
         series: [         
-            { name: "Netzbezug", color: '#dfd0a7', data: dt.map(d => Number(parseFloat(d[3]).toFixed(2))) },
-            { name: "Netzeinspeisung", color: '#987766', data: dt.map(d => Number(parseFloat(d[4]).toFixed(2))) },
-            { name: "Eigenversorgung", color: '#8ac16c', data: dt.map(d => Number(parseFloat(d[1]).toFixed(2))) },
-            { name: "PV Erzeugung", type: 'spline', color: '#eeef63', data: dt.map(d => Number(parseFloat(d[5]).toFixed(2))) },
-            { name: "Strombedarf", type: 'spline', color: '#6c8b8e', data: dt.map(d => Number(parseFloat(d[6]).toFixed(2))) },
+            { name: "Netzbezug", color: '#dfd0a7', data: dt.map(d => [d[0], roundFloat(d[3], 2)]) },
+            { name: "Netzeinspeisung", color: '#987766', data: dt.map(d => [d[0], roundFloat(d[4], 2)]) },
+            { name: "Eigenversorgung", color: '#8ac16c', data: dt.map(d => [d[0], roundFloat(d[1], 2)]) },
+            { name: "PV Erzeugung", type: 'spline', color: '#eeef63', data: dt.map(d => [d[0], roundFloat(d[5], 2)]) },
+            { name: "Strombedarf", type: 'spline', color: '#6c8b8e', data: dt.map(d => [d[0], roundFloat(d[6], 2)]) },
         ]
     };
     
@@ -210,7 +212,10 @@ function createCommunityDatatableNormalized() {
         let data = [];
         const comm = communityCalculation.community;
         // data.push(dTime.toLocaleDateString().substring(0, 5) + " " + dTime.toTimeString().substring(0, 5));
-        data.push(dTime.toLocaleTimeString().substring(0, 5));
+        // data.push(dTime.toLocaleTimeString().substring(0, 5)); // original code
+		// Mi's testing highcharts migration
+        data.push(dTime.getTime());
+        // ---
         data.push(comm.sum_self_cons1[idx]);
         data.push(comm.sum_self_cons2plus3[idx]);
         data.push(comm.grid_cons[idx]);
@@ -222,4 +227,8 @@ function createCommunityDatatableNormalized() {
     }
 
     return dt;
+}
+
+function roundFloat(float, digit) {
+    return Number(parseFloat(float).toFixed(digit));
 }
