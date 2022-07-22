@@ -1,0 +1,15 @@
+#main-container {
+    display: none;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+#gchart {
+    display: none;
+    height: 500px;
+}
+
+#original /*, #summer, #neutralDark, #haystack*/ {
+    /* width: 45%; */
+    transition: linear 0.5s;
+}
